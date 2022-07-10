@@ -1,13 +1,15 @@
 #include <iostream>
 
+template <typename T>
 class Node final
 {
 public:
-	int data = 0;
+	T data{};
 	Node* next = nullptr;
 	Node* prev = nullptr;
 };
 
+template <typename T>
 class List final
 {
 public:
@@ -22,12 +24,12 @@ public:
 		{
 			return ptr->data;
 		}
-		void setPtr(Node* setPtr)
+		void setPtr(Node<T>* setPtr)
 		{
 			this->ptr = setPtr;
 		}
 	private:
-		Node* ptr = nullptr;
+		Node<T>* ptr = nullptr;
 	};
 
 	iterator begin()
@@ -37,15 +39,15 @@ public:
 		return it;
 	}
 
-	void operator<<(int data)
+	void operator<<(const T& data)
 	{
 		pushBack(data);
 	}
 
-	void pushBack(int data)
+	void pushBack(const T& data)
 	{
 		size++;
-		auto newNode = new Node;
+		auto newNode = new Node<T>;
 		newNode->data = data;
 
 		if (!begin_ && !end_)
@@ -59,10 +61,10 @@ public:
 	}
 
 
-	void pushFront( int data )
+	void pushFront(const T& data)
 	{
 		size++;
-		auto newNode = new Node;
+		auto newNode = new Node<T>;
 		newNode->data = data;
 
 		if (!begin_ && !end_)
@@ -83,9 +85,9 @@ public:
 
 	int at(std::size_t index) noexcept
 	{
-		Node* temp = begin_;
+		Node<T>* temp = begin_;
 
-		for (std::size_t i = 1; i <= index; ++i)
+		for (std::size_t i = 1; i <= index; ++i)//дофіга тактів
 			temp = temp->next;
 
 		return temp->data;
@@ -96,14 +98,14 @@ public:
 		return size;
 	}
 private:
-	Node* begin_ = nullptr;
-	Node* end_ = nullptr;
+	Node<T>* begin_ = nullptr;
+	Node<T>* end_ = nullptr;
 	std::size_t size = 0;
 };
 
 int main()
 {
-	List list;
+	List<int> list;
 
 	list.pushFront( 5 );
 	list.pushFront( 7 );
@@ -119,7 +121,7 @@ int main()
 
 	std::cout << std::endl;
 
-	List::iterator it = list.begin();
+	List<int>::iterator it = list.begin();
 	it++;
 	std::cout << *it << std::endl;
 
